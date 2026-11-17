@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 68" width="840" height="68">
+<style>
+text{font-family:'Press Start 2P','Courier New',Courier,monospace}
+@keyframes ar{0%,100%{transform:translateX(0);opacity:1}50%{transform:translateX(8px);opacity:.4}}
+@keyframes al{0%,100%{transform:translateX(0);opacity:1}50%{transform:translateX(-8px);opacity:.4}}
+.ar{animation:ar .9s steps(3) infinite} .al{animation:al .9s steps(3) infinite}
+@keyframes run{from{transform:translateX(0)}to{transform:translateX(840px)}} .run{animation:run 2.8s linear infinite}
+</style>
+<defs><filter id="glow" x="-20%" y="-80%" width="140%" height="260%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<linearGradient id="ln" x1="0" x2="1"><stop offset="0" stop-color="#ff2bd6" stop-opacity="0"/><stop offset=".5" stop-color="#ff2bd6"/><stop offset="1" stop-color="#ff2bd6" stop-opacity="0"/></linearGradient></defs>
+<line x1="0" x2="840" y1="45" y2="45" stroke="url(#ln)" stroke-width="2" opacity=".6"/>
+<rect class="run" x="-60" y="43" width="60" height="4" fill="#ff2bd6" filter="url(#glow)"/>
+<g fill="#ff2bd6" font-size="22" font-weight="700">
+<text class="ar" x="291.5" y="33">&gt;&gt;</text>
+<text class="al" x="518.5" y="33">&lt;&lt;</text>
+</g>
+<text x="420" y="33" text-anchor="middle" font-size="26" font-weight="700" fill="#fff" letter-spacing="5" filter="url(#glow)">INVENTORY</text>
+<text x="420" y="61" text-anchor="middle" font-size="11" fill="#ff2bd6" letter-spacing="2" opacity=".9">// weapons &amp; spells currently equipped</text>
+</svg>
