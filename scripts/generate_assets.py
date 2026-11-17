@@ -487,8 +487,99 @@ def footer():
     return frame(W, H, "".join(out), "")
 
 
+# ================================================================= SQL QUERY ENGINE (real data from the GitHub API)
+FALLBACK_LANGS = [("Python", 6), ("JavaScript", 3), ("HTML", 2), ("C++", 1), ("CSS", 1), ("Dart", 1), ("Jupyter Notebook", 1), ("TypeScript", 1)]
+
+
+def fetch_languages(user="iheblam"):
+    import json
+    import urllib.request
+    try:
+        req = urllib.request.Request(f"https://api.github.com/users/{user}/repos?per_page=100",
+                                     headers={"User-Agent": "profile-asset-generator"})
+        tok = os.environ.get("GITHUB_TOKEN")
+        if tok:
+            req.add_header("Authorization", f"Bearer {tok}")
+        repos = json.load(urllib.request.urlopen(req, timeout=20))
+        counts = {}
+        for r in repos:
+            if r.get("language") and not r.get("fork"):
+                counts[r["language"]] = counts.get(r["language"], 0) + 1
+        langs = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:8]
+        return langs or FALLBACK_LANGS, sum(1 for r in repos if not r.get("fork"))
+    except Exception as e:  # offline: keep the last known numbers
+        print("GitHub API unavailable, using fallback:", e)
+        return FALLBACK_LANGS, 20
+
+
+def query_engine():
+    W, H = 840, 345
+    langs, total = fetch_languages()
+    KW, ID, CM = VIOLET, WHITE, MUTED
+    sql = [
+        [("SELECT ", KW), ("language,", ID)],
+        [("       COUNT", KW), ("(*) ", ID), ("AS ", KW), ("repos", ID)],
+        [("FROM   ", KW), ("iheb.public_repos", AMBER)],
+        [("WHERE  ", KW), ("language ", ID), ("IS NOT NULL", KW)],
+        [("GROUP  BY ", KW), ("language", ID)],
+        [("ORDER  BY ", KW), ("repos ", ID), ("DESC", KW), (";", ID)],
+    ]
+    out = [window_bar(W, "psql :: iheb@github_warehouse — live query")]
+    out.append(f'<rect x="20" y="50" width="370" height="{H - 70}" rx="8" fill="#070d1f" stroke="{DIM}"/>'
+               f'<text x="34" y="72" font-size="11" fill="{CM}">-- what do I build with? (refreshed daily)</text>')
+    cw, t = 7.8, 0.4
+    for i, parts in enumerate(sql):
+        y = 100 + i * 22
+        txt = "".join(p for p, _ in parts)
+        n = len(txt)
+        d = n * 0.03
+        out.append(f'<text x="34" y="{y}" font-size="12" fill="{DIM}">{i + 1}</text>')
+        out.append(typing_clip(f"q{i}", 56, y, n, cw, f"{t:.2f}s", d))
+        spans = "".join(f'<tspan fill="{c}">{esc(p)}</tspan>' for p, c in parts)
+        out.append(f'<text x="56" y="{y}" font-size="13" textLength="{n * cw:.1f}" lengthAdjust="spacing" xml:space="preserve" clip-path="url(#q{i})">{spans}</text>')
+        t += d + 0.08
+    # execute: spinner then status
+    run_at, done_at = t + 0.2, t + 1.4
+    sy = 100 + len(sql) * 22 + 22
+    out.append(f'<g opacity="0"><set attributeName="opacity" to="1" begin="{run_at:.2f}s"/><set attributeName="opacity" to="0" begin="{done_at:.2f}s"/>'
+               f'<g transform="translate(42 {sy - 4})"><circle r="7" fill="none" stroke="{DIM}" stroke-width="2.5"/>'
+               f'<path d="M0 -7 A7 7 0 0 1 7 0" fill="none" stroke="{CYAN}" stroke-width="2.5"><animateTransform attributeName="transform" type="rotate" values="0;360" dur=".7s" repeatCount="indefinite"/></path></g>'
+               f'<text x="56" y="{sy}" font-size="12" fill="{CYAN}">executing on {total} repositories...</text></g>')
+    out.append(f'<text x="34" y="{sy}" font-size="12" fill="{TEAL}" opacity="0">✓ {len(langs)} rows returned · query OK'
+               f'<set attributeName="opacity" to="1" begin="{done_at:.2f}s" fill="freeze"/></text>')
+    out.append(f'<rect x="34" y="{sy + 14}" width="8" height="15" fill="{TEAL}" opacity="0"><set attributeName="opacity" to="1" begin="{done_at:.2f}s" fill="freeze"/>'
+               f'<animate attributeName="fill-opacity" values="1;0;1" dur="1s" calcMode="discrete" repeatCount="indefinite"/></rect>')
+
+    # result grid
+    X = 410
+    out.append(f'<rect x="{X}" y="50" width="{W - X - 20}" height="{H - 70}" rx="8" fill="#070d1f" stroke="{DIM}"/>'
+               f'<text x="{X + 16}" y="76" font-size="11" fill="{CM}" letter-spacing="1">LANGUAGE</text>'
+               f'<text x="{X + 178}" y="76" font-size="11" fill="{CM}" letter-spacing="1">REPOS</text>'
+               f'<line x1="{X}" x2="{W - 20}" y1="86" y2="86" stroke="{DIM}"/>')
+    cols = [CYAN, AMBER, PINK, TEAL, VIOLET, "#4da3ff", "#ff7a59", "#c6ff3d"]
+    mx = max(c for _, c in langs)
+    barmax = W - 20 - (X + 215) - 20
+    for i, (lang, cnt) in enumerate(langs):
+        y = 108 + i * 28
+        b = done_at + 0.15 + i * 0.18
+        col = cols[i % len(cols)]
+        bw = barmax * cnt / mx
+        out.append(f'<g opacity="0"><set attributeName="opacity" to="1" begin="{b:.2f}s" fill="freeze"/>'
+                   f'<rect x="{X + 6}" y="{y - 16}" width="{W - X - 32}" height="24" rx="4" fill="{col}" opacity=".06"/>'
+                   f'<text x="{X + 16}" y="{y}" font-size="13" fill="#fff">{esc(lang)}</text>'
+                   f'<text x="{X + 178}" y="{y}" font-size="13" font-weight="700" fill="{col}">{cnt}</text>'
+                   f'<rect x="{X + 215}" y="{y - 11}" height="12" rx="2" fill="{col}" width="0" filter="url(#glow)">'
+                   f'<animate attributeName="width" from="0" to="{bw:.0f}" begin="{b:.2f}s" dur=".8s" fill="freeze" calcMode="spline" keyTimes="0;1" keySplines=".2 .8 .2 1"/></rect></g>')
+    # looping scan highlight over the result rows
+    out.append(f'<rect x="{X + 2}" y="92" width="{W - X - 24}" height="26" fill="{CYAN}" opacity="0">'
+               f'<animate attributeName="opacity" to=".08" begin="{done_at + 2:.2f}s" dur=".01s" fill="freeze"/>'
+               f'<animate attributeName="y" values="{";".join(str(92 + k * 28) for k in range(len(langs)))}" dur="{len(langs) * 0.6:.1f}s" calcMode="discrete" begin="{done_at + 2:.2f}s" repeatCount="indefinite"/></rect>')
+    return frame(W, H, "".join(out), "")
+
+
 if __name__ == "__main__":
-    save("hero.svg", hero())
+    save("pipeline-hero.svg", hero())
+    save("query.svg", query_engine())
     save("profile.svg", profile())
     save("training.svg", training())
     save("footer.svg", footer())
@@ -500,6 +591,6 @@ if __name__ == "__main__":
         ("pipelines", "PIPELINES", "-- deployed projects · click a card to inspect", PINK),
         ("training", "TRAINING_LOG", "-- certifications, saved as model checkpoints", AMBER),
         ("metrics", "METRICS", "-- live telemetry streamed from github", VIOLET),
-        ("connect", "CONNECT", "-- open a socket, let's build something data-driven", CYAN),
+        ("socket", "CONNECT", "-- open a socket, let's build something data-driven", CYAN),
     ], 1):
         save(f"h-{key}.svg", header(i, title, sub, col))

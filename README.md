@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/hero.svg" width="100%" alt="Iheb Lamouchi: live data pipeline flowing from databases, APIs and documents through ETL and a vector DB into a neural network"/>
+<img src="assets/pipeline-hero.svg" width="100%" alt="Iheb Lamouchi: live data pipeline flowing from databases, APIs and documents through ETL and a vector DB into a neural network"/>
 
 <a href="https://linkedin.com/in/iheb-lamouchi"><img src="https://img.shields.io/badge/LinkedIn-connect()-00e5ff?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=060a18" alt="LinkedIn"/></a>
 <a href="mailto:iheblamouchi.ik@gmail.com"><img src="https://img.shields.io/badge/Email-send_request()-ff3ea5?style=for-the-badge&logo=gmail&logoColor=white&labelColor=060a18" alt="Email"/></a>
@@ -75,13 +75,9 @@
 <img src="https://streak-stats.demolab.com?user=iheblam&background=060a18&border=1b2a4a&ring=00e5ff&fire=ff3ea5&currStreakNum=00ffa3&sideNums=ffffff&currStreakLabel=00e5ff&sideLabels=8b5cf6&dates=7f8db3&stroke=1b2a4a" width="49%" alt="streak"/>
 <img src="https://github-readme-activity-graph.vercel.app/graph?username=iheblam&bg_color=060a18&color=00e5ff&line=00ffa3&point=ff3ea5&area=true&area_color=8b5cf6&hide_border=true&custom_title=Commits%20Ingested%20per%20Day" width="49%" alt="activity graph"/>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/iheblam/iheblam/output/github-snake-dark.svg"/>
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/iheblam/iheblam/output/github-snake.svg"/>
-  <img src="https://raw.githubusercontent.com/iheblam/iheblam/output/github-snake-dark.svg" width="100%" alt="a data stream consuming my contribution graph"/>
-</picture>
+<img src="assets/query.svg" width="100%" alt="Animated SQL query over my GitHub repositories returning languages by repo count"/>
 
-<img src="assets/h-connect.svg" width="100%" alt="Connect"/>
+<img src="assets/h-socket.svg" width="100%" alt="Connect"/>
 <img src="assets/footer.svg" width="100%" alt="Terminal: pipeline finished, thanks for scrolling"/>
 
 <a href="https://linkedin.com/in/iheb-lamouchi"><img src="https://img.shields.io/badge/LinkedIn-00e5ff?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=060a18"/></a>
