@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 180" width="410" height="180">
+<style>text{font-family:'JetBrains Mono','Fira Code',Consolas,'Courier New',monospace} @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}} .blink{animation:blink 1s steps(1) infinite} @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}} .pulse{animation:pulse 1.4s ease-in-out infinite} @keyframes ecg{to{transform:translateX(-71px)}} .ecg{animation:ecg 1.6s linear infinite}@keyframes lap{to{stroke-dashoffset:-100}} .lap{animation:lap 3.5s linear infinite}</style>
+<defs>
+<radialGradient id="bgr" cx=".5" cy=".35" r=".8"><stop offset="0" stop-color="#0e1838"/><stop offset="1" stop-color="#060a18"/></radialGradient>
+<pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#1b2a4a"/></pattern>
+<linearGradient id="neon" x1="0" x2="1"><stop offset="0" stop-color="#00e5ff"/><stop offset=".5" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ff3ea5"/>
+  <animateTransform attributeName="gradientTransform" type="translate" values="-1 0;1 0;-1 0" dur="9s" repeatCount="indefinite"/></linearGradient>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<radialGradient id="rg" cx="0" cy="1" r="1"><stop offset="0" stop-color="#ff3ea5" stop-opacity=".7"/><stop offset="1" stop-color="#ff3ea5" stop-opacity="0"/></radialGradient><clipPath id="cc"><rect width="410" height="180" rx="12"/></clipPath></defs>
+<g clip-path="url(#cc)"><rect width="410" height="180" fill="url(#bgr)"/><rect width="410" height="180" fill="url(#dots)" opacity=".6"/>
+<rect x="16" y="16" width="94" height="20" rx="10" fill="#ff3ea5" fill-opacity=".15" stroke="#ff3ea5"/>
+<circle cx="27" cy="26" r="3.5" fill="#ff3ea5" class="pulse"/>
+<text x="36" y="30" font-size="10" font-weight="700" fill="#ff3ea5" letter-spacing="1">HEALTH AI</text>
+<text x="22" y="66" font-size="21" font-weight="800" fill="#fff" letter-spacing="1">HOMEDOC</text>
+<text x="22" y="92" font-size="12" fill="#c9d4f2">Intelligent medical diagnosis</text><text x="22" y="110" font-size="12" fill="#c9d4f2">system: symptom analysis through</text><text x="22" y="128" font-size="12" fill="#c9d4f2">a REST API + web frontend.</text>
+<line x1="22" x2="388" y1="146" y2="146" stroke="#1b2a4a"/>
+<text x="22" y="166" font-size="11" fill="#ff3ea5">stack: <tspan fill="#fff">TypeScript · REST API</tspan></text>
+<text x="388" y="166" font-size="11" fill="#ff3ea5" text-anchor="end">inspect <tspan class="blink">→</tspan></text>
+<rect x="294" y="14" width="100" height="80" rx="6" fill="#070d1f" stroke="#1b2a4a"/>
+<clipPath id="vb"><rect x="298" y="20" width="92" height="66"/></clipPath><g clip-path="url(#vb)"><path class="ecg" d="M298 60 l14 0 l4 -6 l4 6 l6 0 l3 6 l5 -30 l5 32 l4 -8 l5 0 l6 -5 l6 5 l14 0 l14 0 l4 -6 l4 6 l6 0 l3 6 l5 -30 l5 32 l4 -8 l5 0 l6 -5 l6 5 l14 0 l14 0 l4 -6 l4 6 l6 0 l3 6 l5 -30 l5 32 l4 -8 l5 0 l6 -5 l6 5 l14 0" fill="none" stroke="#ff3ea5" stroke-width="2" filter="url(#glow)"/></g><text x="388" y="86" text-anchor="end" font-size="9" fill="#ff3ea5">72 bpm</text>
+<rect x="2" y="2" width="406" height="176" rx="12" fill="none" stroke="#ff3ea5" stroke-opacity=".35" stroke-width="1.5"/>
+<rect class="lap" x="2" y="2" width="406" height="176" rx="12" fill="none" stroke="#ff3ea5" stroke-width="3" pathLength="100" stroke-dasharray="7 93" filter="url(#glow)"/></g></svg>
